@@ -1,27 +1,27 @@
 #include "BookDB.h"
-const BookDB::std::array<const wxString, SizeTables> arrayTables = { wxT("contacts"), wxT("live"), wxT("phones")};
+const std::array<const std::string, BookDB::SizeTables> BookDB::arrayTables = { "contacts", "live", "phones"};
 
-const wxString BookDB::name_db(wxT("phonebook.sqlite3"));
+const std::string BookDB::name_db("phonebook.sqlite3");
 
 
 BookDB::ConnectDBError::ConnectDBError(std::string const & what_arg)
-: std::runtime_error((const char *)what_arg.mb_str(wxConvUTF8)) { }
+: std::runtime_error(what_arg) { }
 
-BookDB::BookDB(wxString const & name_db){
+BookDB::BookDB(std::string const & name_db){
     vecFunc.push_back(&BookDB::CreateTableContacts);
     vecFunc.push_back(&BookDB::CreateTableLive);
     vecFunc.push_back(&BookDB::CreateTablePhones);
 
-    auto result = sqlite3_open16(name_db.mbc_str(), &m_PtrDB);
+    auto result = sqlite3_open_v2(name_db.c_str(), &m_PtrDB, SQLITE_OPEN_CREATE|SQLITE_OPEN_READWRITE, nullptr);
     if(result != SQLITE_OK)
         throw ConnectDBError();
 
-    auto CallFuncIt = vec.begin();
-    for(auto name_tb : arrayTables){
-        if(!this->IsCreatedTable(name_tb)){
-            (*CallFuncIt)();
+    int index = 0;
+    for(auto f : vecFunc){
+        if(!(this->IsCreatedTable(arrayTables[index]))){
+            (this->*f)();
         }
-        ++CallFuncIt;
+        ++index;
     }
 }
 
@@ -29,16 +29,14 @@ BookDB::~BookDB(){
     sqlite3_close_v2(m_PtrDB);
 }
 
-bool BookDB::IsCreatedTable(wxString const & name_table){
+bool BookDB::IsCreatedTable(std::string const & name_table){
 
-    wxString request;
-    request.Printf(wxT("SELECT name FROM sqlite3_master"
-                       " WHERE type='table' AND name='%s';"),
-                   (const char *)name_table.mb_str(wxConvUTF8));
+    std::string request("SELECT name FROM sqlite_master"
+                       " WHERE type='table' AND name='"+ name_table + "';");
 
     sqlite3_stmt * PtrStmt;
-    auto result = sqlite3_prepare16_v2(m_PtrDB, request.mb_str(), request.Len()+1, &stmt, nullptr);
-    assert(result == SQLITE_OK);
+    auto result = sqlite3_prepare_v2(m_PtrDB, request.c_str(), request.size()+1, &PtrStmt, nullptr);
+    //assert(result == SQLITE_OK);
     result = sqlite3_step(PtrStmt);
     sqlite3_finalize(PtrStmt);
     if(result == SQLITE_DONE){
@@ -48,44 +46,44 @@ bool BookDB::IsCreatedTable(wxString const & name_table){
     }
 }
 void BookDB::CreateTableContacts(){
-    wxString request(wxT("CREATE TABLE contacts("
-                         "contact_id INTEGER AUTOINCREMENT PRIMARY KEY,"
-                         "first_name_ct VARCHAR(255) NOT NULL"
+    std::string request("CREATE TABLE contacts("
+                         "contact_id INTEGER PRIMARY KEY AUTOINCREMENT,"
+                         "first_name_ct VARCHAR(255) NOT NULL,"
                          "last_name_ct VARCHAR(255)"
-                         ");"));
+                         ");");
     sqlite3_stmt * PtrStmt;
-    auto result = sqlite3_prepare16_v2(m_PtrDB, request.mb_str(), request.Len()+1, &stmt, nullptr);
-    assert(result == SQLITE_OK);
+    auto result = sqlite3_prepare_v2(m_PtrDB, request.c_str(), request.size()+1, &PtrStmt, nullptr);
+    //assert(result == SQLITE_OK);
     result = sqlite3_step(PtrStmt);
     sqlite3_finalize(PtrStmt);
-    assert(result == SQLITE_DONE);
+    //assert(result == SQLITE_DONE);
 }
 
 void BookDB::CreateTableLive(){
-    wxString request(wxT("CREATE TABLE live(
-                         "live_id INTEGER AUTOINCREMENT PRIMARY KEY,"
+    std::string request("CREATE TABLE live("
+                         "live_id INTEGER PRIMARY KEY AUTOINCREMENT,"
                          "name_city VARCHAR(255) NOT NULL, "
                          "FOREIGN KEY(live_id) REFERENCES contacts(contact_id)"
-                         ");"));
+                         ");");
     sqlite3_stmt * PtrStmt;
-    auto result = sqlite3_prepare16_v2(m_PtrDB, request.mb_str(), request.Len()+1, &stmt, nullptr);
-    assert(result == SQLITE_OK);
+    auto result = sqlite3_prepare_v2(m_PtrDB, request.c_str(), request.size()+1, &PtrStmt, nullptr);
+    //assert(result == SQLITE_OK);
     result = sqlite3_step(PtrStmt);
     sqlite3_finalize(PtrStmt);
-    assert(result == SQLITE_DONE);
+    //assert(result == SQLITE_DONE);
 }
 
 void BookDB::CreateTablePhones(){
-    wxString request(wxT("CREATE TABLE phones(
-                         "phone_id INTEGER AUTOINCREMENT PRIMARY KEY,"
+    std::string request("CREATE TABLE phones("
+                         "phone_id INTEGER PRIMARY KEY AUTOINCREMENT,"
                          "phone_number VARCHAR(20) NOT NULL,"
                          "contact_id INTEGER NOT NULL,"
-                         "FOREIGN KEY(contact_id) REFERENCES contacts(contact_id)
-                         ");"));
+                         "FOREIGN KEY(contact_id) REFERENCES contacts(contact_id)"
+                         ");");
     sqlite3_stmt * PtrStmt;
-    auto result = sqlite3_prepare16_v2(m_PtrDB, request.mb_str(), request.Len()+1, &stmt, nullptr);
-    assert(result == SQLITE_OK);
+    auto result = sqlite3_prepare_v2(m_PtrDB, request.c_str(), request.size()+1, &PtrStmt, nullptr);
+    //assert(result == SQLITE_OK);
     result = sqlite3_step(PtrStmt);
     sqlite3_finalize(PtrStmt);
-    assert(result == SQLITE_DONE);
+    //assert(result == SQLITE_DONE);
 }

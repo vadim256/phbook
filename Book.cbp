@@ -18,6 +18,7 @@
 				</Compiler>
 				<Linker>
 					<Add option="`wx-config  --version=3.1 --static=no --unicode=yes --debug=yes --libs`" />
+					<Add library="/usr/lib/x86_64-linux-gnu/libsqlite3.so" />
 				</Linker>
 			</Target>
 			<Target title="Release">
@@ -44,6 +45,8 @@
 		</Compiler>
 		<Unit filename="BookApp.cpp" />
 		<Unit filename="BookApp.h" />
+		<Unit filename="BookDB.cpp" />
+		<Unit filename="BookDB.h" />
 		<Unit filename="BookMain.cpp" />
 		<Unit filename="BookMain.h" />
 		<Unit filename="wx_pch.h">

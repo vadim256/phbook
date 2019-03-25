@@ -15,6 +15,7 @@
 #include <wx/menu.h>
 #include <wx/statusbr.h>
 //*)
+#include "BookDB.h"
 
 class BookFrame: public wxFrame
 {
@@ -39,7 +40,7 @@ class BookFrame: public wxFrame
         //(*Declarations(BookFrame)
         wxStatusBar* StatusBar1;
         //*)
-
+        BookDB m_BookDB;
         DECLARE_EVENT_TABLE()
 };
 
