@@ -1,5 +1,6 @@
 #ifndef BOOK_DB_H_
 #define BOOK_DB_H_
+
 #include "BookContact.h"
 #include <string>
 #include <sqlite3.h>

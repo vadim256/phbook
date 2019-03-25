@@ -77,7 +77,7 @@ void BookDB::CreateTableLive(){
 void BookDB::CreateTablePhones(){
     std::string request("CREATE TABLE phones("
                          "phone_id INTEGER PRIMARY KEY AUTOINCREMENT,"
-                         "phone_number VARCHAR(20) NOT NULL,"
+                         "phone_number VARCHAR(255) NOT NULL,"
                          "contact_id INTEGER NOT NULL,"
                          "FOREIGN KEY(contact_id) REFERENCES contacts(contact_id)"
                          ");");
@@ -93,6 +93,48 @@ void BookDB::SetContact(const Contact & contact) {
     m_CurrentContact = contact;
 }
 
-const Contact & BookDB::GetContact(const Contact & contact) const {
+const Contact & BookDB::GetContact() const {
     return m_CurrentContact;
+}
+
+void BookDB::InsertContactDB(){
+
+    auto fname = m_CurrentContact.GetFirstName();
+    auto phone_number = m_CurrentContact.GetPhoneNumber();
+    if(fname.empty() || phone_number.empty()){
+            return;
+    }
+    std::string request("INSERT INTO contacts(first_name_ct, last_name_ct) VALUES(:first_name_ct,:last_name_ct);");
+    sqlite3_stmt * PtrStmt;
+    auto result = sqlite3_prepare_v2(m_PtrDB, request.c_str(), request.size()+1, &PtrStmt, nullptr);
+    auto index = sqlite3_bind_parameter_index(PtrStmt, ":first_name_ct");
+
+    result = sqlite3_bind_text(PtrStmt, index, fname.c_str(), fname.size()+1, SQLITE_TRANSIENT);
+    index = sqlite3_bind_parameter_index(PtrStmt, ":last_name_ct");
+    auto lname = m_CurrentContact.GetLastName();
+    result = sqlite3_bind_text(PtrStmt, index, lname.c_str(), lname.size()+1, SQLITE_TRANSIENT);
+    result = sqlite3_step(PtrStmt);
+    sqlite3_finalize(PtrStmt);
+
+    request.clear();
+    request = std::string("INSERT INTO live(live_id, name_city) VALUES("
+                          "(SELECT contact_id FROM contacts WHERE first_name_ct == '") + fname +
+              std::string("' AND second_name_ct == '") + lname + std::string("'), :name_city);");
+    result = sqlite3_prepare_v2(m_PtrDB, request.c_str(), request.size()+1, &PtrStmt, nullptr);
+    index = sqlite3_bind_parameter_index(PtrStmt, ":name_city");
+    auto name_city = m_CurrentContact.GetCity();
+    result = sqlite3_bind_text(PtrStmt, index, name_city.c_str(), name_city.size()+1, SQLITE_TRANSIENT);
+    result = sqlite3_step(PtrStmt);
+    sqlite3_finalize(PtrStmt);
+
+    request.clear();
+    request = std::string("INSERT INTO phones(phone_number, contact_id) VALUES(:phone_number,"
+                          "(SELECT contact_id FROM contacts WHERE first_name_ct == '") + fname +
+              std::string("' AND second_name_ct == '") + lname + std::string("'));");
+    result = sqlite3_prepare_v2(m_PtrDB, request.c_str(), request.size()+1, &PtrStmt, nullptr);
+    index = sqlite3_bind_parameter_index(PtrStmt, ":phone_number");
+
+    result = sqlite3_bind_text(PtrStmt, index, phone_number.c_str(), phone_number.size()+1, SQLITE_TRANSIENT);
+    result = sqlite3_step(PtrStmt);
+    sqlite3_finalize(PtrStmt);
 }
