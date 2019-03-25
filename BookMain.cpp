@@ -81,7 +81,7 @@ BookFrame::BookFrame(wxWindow* parent,wxWindowID id)
     BoxSizer2 = new wxBoxSizer(wxHORIZONTAL);
     SearchCtrl1 = new wxSearchCtrl(this, ID_SEARCHCTRL1, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0, wxDefaultValidator, _T("ID_SEARCHCTRL1"));
     BoxSizer2->Add(SearchCtrl1, 1, wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 5);
-    BoxSizer1->Add(BoxSizer2, 0, wxALL|wxGROW, 2);
+    BoxSizer1->Add(BoxSizer2, 0, wxALL|wxSHAPED, 2);
     SplitterWindow1 = new wxSplitterWindow(this, ID_SPLITTERWINDOW1, wxDefaultPosition, wxDefaultSize, wxSP_3D|wxSP_3DBORDER|wxSP_LIVE_UPDATE|wxDOUBLE_BORDER, _T("ID_SPLITTERWINDOW1"));
     SplitterWindow1->SetMinimumPaneSize(125);
     SplitterWindow1->SetSashGravity(0.5);
