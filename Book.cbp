@@ -45,6 +45,8 @@
 		</Compiler>
 		<Unit filename="BookApp.cpp" />
 		<Unit filename="BookApp.h" />
+		<Unit filename="BookContact.cpp" />
+		<Unit filename="BookContact.h" />
 		<Unit filename="BookDB.cpp" />
 		<Unit filename="BookDB.h" />
 		<Unit filename="BookMain.cpp" />

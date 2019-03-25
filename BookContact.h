@@ -23,6 +23,7 @@ struct Contact {
 
     const std::string & GetCity() const;
     void SetCity(const std::string &);
+
 private:
     std::string m_FirstName, m_LastName, m_PhoneNumber, m_City;
 
