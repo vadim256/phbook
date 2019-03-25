@@ -1,8 +1,8 @@
 #include "BookDB.h"
+
 const std::array<const std::string, BookDB::SizeTables> BookDB::arrayTables = { "contacts", "live", "phones"};
 
 const std::string BookDB::name_db("phonebook.sqlite3");
-
 
 BookDB::ConnectDBError::ConnectDBError(std::string const & what_arg)
 : std::runtime_error(what_arg) { }
@@ -45,6 +45,7 @@ bool BookDB::IsCreatedTable(std::string const & name_table){
             return TRUE;
     }
 }
+
 void BookDB::CreateTableContacts(){
     std::string request("CREATE TABLE contacts("
                          "contact_id INTEGER PRIMARY KEY AUTOINCREMENT,"
@@ -86,4 +87,12 @@ void BookDB::CreateTablePhones(){
     result = sqlite3_step(PtrStmt);
     sqlite3_finalize(PtrStmt);
     //assert(result == SQLITE_DONE);
+}
+
+void BookDB::SetContact(const Contact & contact) {
+    m_CurrentContact = contact;
+}
+
+const Contact & BookDB::GetContact(const Contact & contact) const {
+    return m_CurrentContact;
 }
