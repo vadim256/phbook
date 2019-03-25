@@ -12,6 +12,8 @@
 #include <wx/msgdlg.h>
 
 //(*InternalHeaders(BookFrame)
+#include <wx/bitmap.h>
+#include <wx/image.h>
 #include <wx/intl.h>
 #include <wx/string.h>
 //*)
@@ -43,9 +45,17 @@ wxString wxbuildinfo(wxbuildinfoformat format)
 }
 
 //(*IdInit(BookFrame)
+const long BookFrame::ID_SEARCHCTRL1 = wxNewId();
+const long BookFrame::ID_LISTBOX1 = wxNewId();
+const long BookFrame::ID_TEXTCTRL1 = wxNewId();
+const long BookFrame::ID_SPLITTERWINDOW1 = wxNewId();
 const long BookFrame::idMenuQuit = wxNewId();
 const long BookFrame::idMenuAbout = wxNewId();
 const long BookFrame::ID_STATUSBAR1 = wxNewId();
+const long BookFrame::idNewContact = wxNewId();
+const long BookFrame::idUpdateContact = wxNewId();
+const long BookFrame::idDeleteContact = wxNewId();
+const long BookFrame::ID_TOOLBAR1 = wxNewId();
 //*)
 
 BEGIN_EVENT_TABLE(BookFrame,wxFrame)
@@ -56,13 +66,31 @@ END_EVENT_TABLE()
 BookFrame::BookFrame(wxWindow* parent,wxWindowID id)
 {
     //(*Initialize(BookFrame)
+    wxBoxSizer* BoxSizer1;
+    wxBoxSizer* BoxSizer2;
     wxMenu* Menu1;
     wxMenu* Menu2;
     wxMenuBar* MenuBar1;
     wxMenuItem* MenuItem1;
     wxMenuItem* MenuItem2;
 
-    Create(parent, id, wxEmptyString, wxDefaultPosition, wxDefaultSize, wxDEFAULT_FRAME_STYLE, _T("id"));
+    Create(parent, id, _("PhoneBook"), wxDefaultPosition, wxDefaultSize, wxDEFAULT_FRAME_STYLE, _T("id"));
+    SetClientSize(wxSize(450,500));
+    SetMinSize(wxSize(450,500));
+    BoxSizer1 = new wxBoxSizer(wxVERTICAL);
+    BoxSizer2 = new wxBoxSizer(wxHORIZONTAL);
+    SearchCtrl1 = new wxSearchCtrl(this, ID_SEARCHCTRL1, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0, wxDefaultValidator, _T("ID_SEARCHCTRL1"));
+    BoxSizer2->Add(SearchCtrl1, 1, wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 5);
+    BoxSizer1->Add(BoxSizer2, 0, wxALL|wxGROW, 2);
+    SplitterWindow1 = new wxSplitterWindow(this, ID_SPLITTERWINDOW1, wxDefaultPosition, wxDefaultSize, wxSP_3D|wxSP_3DBORDER|wxSP_LIVE_UPDATE|wxDOUBLE_BORDER, _T("ID_SPLITTERWINDOW1"));
+    SplitterWindow1->SetMinimumPaneSize(125);
+    SplitterWindow1->SetSashGravity(0.5);
+    ListBox1 = new wxListBox(SplitterWindow1, ID_LISTBOX1, wxDefaultPosition, wxDefaultSize, 0, 0, 0, wxDefaultValidator, _T("ID_LISTBOX1"));
+    TextCtrl1 = new wxTextCtrl(SplitterWindow1, ID_TEXTCTRL1, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0, wxDefaultValidator, _T("ID_TEXTCTRL1"));
+    SplitterWindow1->SplitVertically(ListBox1, TextCtrl1);
+    SplitterWindow1->SetSashPosition(175);
+    BoxSizer1->Add(SplitterWindow1, 1, wxALL|wxEXPAND, 2);
+    SetSizer(BoxSizer1);
     MenuBar1 = new wxMenuBar();
     Menu1 = new wxMenu();
     MenuItem1 = new wxMenuItem(Menu1, idMenuQuit, _("Quit\tAlt-F4"), _("Quit the application"), wxITEM_NORMAL);
@@ -79,7 +107,17 @@ BookFrame::BookFrame(wxWindow* parent,wxWindowID id)
     StatusBar1->SetFieldsCount(1,__wxStatusBarWidths_1);
     StatusBar1->SetStatusStyles(1,__wxStatusBarStyles_1);
     SetStatusBar(StatusBar1);
+    ToolBar1 = new wxToolBar(this, ID_TOOLBAR1, wxDefaultPosition, wxDefaultSize, wxTB_HORIZONTAL|wxNO_BORDER, _T("ID_TOOLBAR1"));
+    ToolBarItem1 = ToolBar1->AddTool(idNewContact, _("New "), wxBitmap(wxImage(_T("/home/ameliepulen/project3/phbook/add_contact.png"))), wxNullBitmap, wxITEM_NORMAL, wxEmptyString, wxEmptyString);
+    ToolBarItem2 = ToolBar1->AddTool(idUpdateContact, _("Update"), wxBitmap(wxImage(_T("/home/ameliepulen/project3/phbook/update_contact.png"))), wxNullBitmap, wxITEM_NORMAL, wxEmptyString, wxEmptyString);
+    ToolBarItem3 = ToolBar1->AddTool(idDeleteContact, _("Delete"), wxBitmap(wxImage(_T("/home/ameliepulen/project3/phbook/delete_contact.png"))), wxNullBitmap, wxITEM_NORMAL, wxEmptyString, wxEmptyString);
+    ToolBar1->Realize();
+    SetToolBar(ToolBar1);
+    SetSizer(BoxSizer1);
+    Layout();
+    Center();
 
+    Connect(ID_SPLITTERWINDOW1,wxEVT_COMMAND_SPLITTER_SASH_POS_CHANGING,(wxObjectEventFunction)&BookFrame::OnSplitterWindow1SashPosChanging);
     Connect(idMenuQuit,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&BookFrame::OnQuit);
     Connect(idMenuAbout,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&BookFrame::OnAbout);
     //*)
@@ -100,4 +138,8 @@ void BookFrame::OnAbout(wxCommandEvent& event)
 {
     wxString msg = wxbuildinfo(long_f);
     wxMessageBox(msg, _("Welcome to..."));
+}
+
+void BookFrame::OnSplitterWindow1SashPosChanging(wxSplitterEvent& event)
+{
 }

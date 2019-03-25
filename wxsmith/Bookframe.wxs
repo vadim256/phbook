@@ -1,30 +1,79 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <wxsmith>
-    <object class="wxFrame" name="BookFrame">
-        <object class="wxMenuBar" variable="MenuBar1" member="no">
-            <object class="wxMenu" variable="Menu1" member="no">
-                <label>&amp;File</label>
-                <object class="wxMenuItem" name="idMenuQuit" variable="MenuItem1" member="no">
-                    <label>Quit</label>
-                    <accel>Alt-F4</accel>
-                    <help>Quit the application</help>
-                    <handler function="OnQuit" entry="EVT_MENU" />
-                </object>
-            </object>
-            <object class="wxMenu" variable="Menu2" member="no">
-                <label>Help</label>
-                <object class="wxMenuItem" name="idMenuAbout" variable="MenuItem2" member="no">
-                    <label>About</label>
-                    <accel>F1</accel>
-                    <help>Show info about this application</help>
-                    <handler function="OnAbout" entry="EVT_MENU" />
-                </object>
-            </object>
-        </object>
-        <object class="wxStatusBar" name="ID_STATUSBAR1" variable="StatusBar1" member="yes">
-            <fields>1</fields>
-            <widths>-1</widths>
-            <styles>wxSB_NORMAL</styles>
-        </object>
-    </object>
+	<object class="wxFrame" name="BookFrame">
+		<title>PhoneBook</title>
+		<centered>1</centered>
+		<size>450,500</size>
+		<minsize>450,500</minsize>
+		<object class="wxBoxSizer" variable="BoxSizer1" member="no">
+			<orient>wxVERTICAL</orient>
+			<object class="sizeritem">
+				<object class="wxBoxSizer" variable="BoxSizer2" member="no">
+					<object class="sizeritem">
+						<object class="wxSearchCtrl" name="ID_SEARCHCTRL1" variable="SearchCtrl1" member="yes" />
+						<flag>wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL</flag>
+						<border>5</border>
+						<option>1</option>
+					</object>
+				</object>
+				<flag>wxALL|wxSHAPED</flag>
+				<border>2</border>
+			</object>
+			<object class="sizeritem">
+				<object class="wxSplitterWindow" name="ID_SPLITTERWINDOW1" variable="SplitterWindow1" member="yes">
+					<sashpos>175</sashpos>
+					<minpanesize>125</minpanesize>
+					<orientation>vertical</orientation>
+					<style>wxSP_3D|wxSP_3DBORDER|wxSP_LIVE_UPDATE|wxDOUBLE_BORDER</style>
+					<handler function="OnSplitterWindow1SashPosChanging" entry="EVT_SPLITTER_SASH_POS_CHANGING" />
+					<object class="wxListBox" name="ID_LISTBOX1" variable="ListBox1" member="yes">
+						<default>-1</default>
+					</object>
+					<object class="wxTextCtrl" name="ID_TEXTCTRL1" variable="TextCtrl1" member="yes" />
+				</object>
+				<flag>wxALL|wxEXPAND</flag>
+				<border>2</border>
+				<option>1</option>
+			</object>
+		</object>
+		<object class="wxMenuBar" variable="MenuBar1" member="no">
+			<object class="wxMenu" variable="Menu1" member="no">
+				<label>&amp;File</label>
+				<object class="wxMenuItem" name="idMenuQuit" variable="MenuItem1" member="no">
+					<label>Quit</label>
+					<accel>Alt-F4</accel>
+					<help>Quit the application</help>
+					<handler function="OnQuit" entry="EVT_MENU" />
+				</object>
+			</object>
+			<object class="wxMenu" variable="Menu2" member="no">
+				<label>Help</label>
+				<object class="wxMenuItem" name="idMenuAbout" variable="MenuItem2" member="no">
+					<label>About</label>
+					<accel>F1</accel>
+					<help>Show info about this application</help>
+					<handler function="OnAbout" entry="EVT_MENU" />
+				</object>
+			</object>
+		</object>
+		<object class="wxStatusBar" name="ID_STATUSBAR1" variable="StatusBar1" member="yes">
+			<fields>1</fields>
+			<widths>-1</widths>
+			<styles>wxSB_NORMAL</styles>
+		</object>
+		<object class="wxToolBar" name="ID_TOOLBAR1" variable="ToolBar1" member="yes">
+			<object class="tool" name="idNewContact" variable="ToolBarItem1" member="yes">
+				<label>New </label>
+				<bitmap>/home/ameliepulen/project3/phbook/add_contact.png</bitmap>
+			</object>
+			<object class="tool" name="idUpdateContact" variable="ToolBarItem2" member="yes">
+				<label>Update</label>
+				<bitmap>/home/ameliepulen/project3/phbook/update_contact.png</bitmap>
+			</object>
+			<object class="tool" name="idDeleteContact" variable="ToolBarItem3" member="yes">
+				<label>Delete</label>
+				<bitmap>/home/ameliepulen/project3/phbook/delete_contact.png</bitmap>
+			</object>
+		</object>
+	</object>
 </wxsmith>
