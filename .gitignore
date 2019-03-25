@@ -2,4 +2,5 @@
 /wx_pch.h.gch
 /obj
 *.layout
-
+*.depend
+*.sqlite3
