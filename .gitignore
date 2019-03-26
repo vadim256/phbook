@@ -1,6 +1,7 @@
 /bin
 /wx_pch.h.gch
 /obj
+*.txt
 *.png
 *.layout
 *.depend
