@@ -33,5 +33,4 @@ bool BookApp::OnInit()
     }
     //*)
     return wxsOK;
-
 }
