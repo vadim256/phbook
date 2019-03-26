@@ -38,6 +38,7 @@ class BookFrame: public wxFrame
         void OnAbout(wxCommandEvent& event);
         void OnSplitterWindow1SashPosChanging(wxSplitterEvent& event);
         void OnToolBarItem1Clicked(wxCommandEvent& event);
+        void OnClose(wxCloseEvent& event);
         //*)
 
         //(*Identifiers(BookFrame)

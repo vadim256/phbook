@@ -5,60 +5,64 @@
 	//(*HeadersPCH(ContactDialog)
 	#include <wx/button.h>
 	#include <wx/dialog.h>
-	#include <wx/panel.h>
-	#include <wx/sizer.h>
 	#include <wx/stattext.h>
 	#include <wx/textctrl.h>
 	//*)
 #endif
 //(*Headers(ContactDialog)
+#include <wx/statline.h>
 //*)
+#include <wx/valtext.h>
+#include <wx/string.h>
+#include <wx/tokenzr.h>
+
+
+#include "BookContact.h"
+
 
 class ContactDialog: public wxDialog
 {
 	public:
 
-		ContactDialog(wxWindow* parent,wxWindowID id=wxID_ANY,const wxPoint& pos=wxDefaultPosition,const wxSize& size=wxDefaultSize);
+		ContactDialog(wxWindow* parent);
 		virtual ~ContactDialog();
-
+		void SetContact(const Contact &);
+        const Contact & GetContact();
 		//(*Declarations(ContactDialog)
 		wxButton* Button1;
 		wxButton* Button2;
 		wxButton* Button3;
-		wxPanel* Panel1;
+		wxButton* Button4;
+		wxStaticLine* StaticLine1;
 		wxStaticText* StaticText1;
 		wxStaticText* StaticText2;
 		wxStaticText* StaticText3;
-		wxStaticText* StaticText4;
 		wxTextCtrl* TextCtrl1;
 		wxTextCtrl* TextCtrl2;
 		wxTextCtrl* TextCtrl3;
-		wxTextCtrl* TextCtrl4;
 		//*)
 
 	protected:
 
 		//(*Identifiers(ContactDialog)
-		static const long ID_STATICTEXT1;
-		static const long ID_TEXTCTRL1;
-		static const long ID_STATICTEXT2;
-		static const long ID_TEXTCTRL2;
-		static const long ID_STATICTEXT3;
-		static const long ID_TEXTCTRL3;
-		static const long ID_STATICTEXT4;
-		static const long ID_TEXTCTRL4;
-		static const long ID_PANEL1;
-		static const long ID_BUTTON1;
-		static const long ID_BUTTON2;
-		static const long ID_BUTTON3;
 		//*)
 
 	private:
 
 		//(*Handlers(ContactDialog)
+		void OnInit(wxInitDialogEvent& event);
+		void OnButton4Click(wxCommandEvent& event);
 		//*)
+		void InitTmpVar();
+		void TransferAndValidateInput();
+        wxString m_FullName,
+                 m_PhoneNumber,
+                 m_City;
+
+        Contact m_PrepareContact;
 
 		DECLARE_EVENT_TABLE()
+
 };
 
 #endif

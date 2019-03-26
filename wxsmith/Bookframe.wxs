@@ -5,18 +5,26 @@
 		<centered>1</centered>
 		<size>450,500</size>
 		<minsize>450,500</minsize>
+		<handler function="OnClose" entry="EVT_CLOSE" />
 		<object class="wxBoxSizer" variable="BoxSizer1" member="no">
 			<orient>wxVERTICAL</orient>
 			<object class="sizeritem">
 				<object class="wxBoxSizer" variable="BoxSizer2" member="no">
 					<object class="sizeritem">
-						<object class="wxSearchCtrl" name="ID_SEARCHCTRL1" variable="SearchCtrl1" member="yes" />
-						<flag>wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL</flag>
+						<object class="wxBoxSizer" variable="BoxSizer3" member="no">
+							<object class="sizeritem">
+								<object class="wxSearchCtrl" name="ID_SEARCHCTRL1" variable="SearchCtrl1" member="yes" />
+								<flag>wxALL|wxEXPAND</flag>
+								<border>5</border>
+								<option>1</option>
+							</object>
+						</object>
+						<flag>wxALL|wxEXPAND</flag>
 						<border>5</border>
-						<option>1</option>
+						<option>2</option>
 					</object>
 				</object>
-				<flag>wxALL|wxSHAPED</flag>
+				<flag>wxALL|wxEXPAND</flag>
 				<border>2</border>
 			</object>
 			<object class="sizeritem">
