@@ -12,6 +12,7 @@
 
 //(*AppHeaders
 #include "BookMain.h"
+#include <wx/xrc/xmlres.h>
 #include <wx/image.h>
 //*)
 
@@ -22,6 +23,8 @@ bool BookApp::OnInit()
     //(*AppInitialize
     bool wxsOK = true;
     wxInitAllImageHandlers();
+    wxXmlResource::Get()->InitAllHandlers();
+    wxsOK = wxsOK && wxXmlResource::Get()->Load(_T("ContactDialog.xrc"));
     if ( wxsOK )
     {
     	BookFrame* Frame = new BookFrame(0);

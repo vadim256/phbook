@@ -51,11 +51,14 @@
 		<Unit filename="BookDB.h" />
 		<Unit filename="BookMain.cpp" />
 		<Unit filename="BookMain.h" />
+		<Unit filename="ContactDialog.cpp" />
+		<Unit filename="ContactDialog.h" />
 		<Unit filename="wx_pch.h">
 			<Option compile="1" />
 			<Option weight="0" />
 		</Unit>
 		<Unit filename="wxsmith/Bookframe.wxs" />
+		<Unit filename="wxsmith/ContactDialog.wxs" />
 		<Extensions>
 			<code_completion />
 			<envvars />
