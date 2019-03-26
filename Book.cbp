@@ -51,11 +51,14 @@
 		<Unit filename="BookDB.h" />
 		<Unit filename="BookMain.cpp" />
 		<Unit filename="BookMain.h" />
+		<Unit filename="ContactDialog.cpp" />
+		<Unit filename="ContactDialog.h" />
 		<Unit filename="wx_pch.h">
 			<Option compile="1" />
 			<Option weight="0" />
 		</Unit>
 		<Unit filename="wxsmith/Bookframe.wxs" />
+		<Unit filename="wxsmith/ContactDialog.wxs" />
 		<Extensions>
 			<code_completion />
 			<envvars />
@@ -64,6 +67,7 @@
 				<gui name="wxWidgets" src="BookApp.cpp" main="BookFrame" init_handlers="necessary" language="CPP" />
 				<resources>
 					<wxFrame wxs="wxsmith/Bookframe.wxs" src="BookMain.cpp" hdr="BookMain.h" fwddecl="0" i18n="1" name="BookFrame" language="CPP" />
+					<wxDialog wxs="wxsmith/ContactDialog.wxs" src="ContactDialog.cpp" hdr="ContactDialog.h" fwddecl="0" i18n="1" name="ContactDialog" language="CPP" />
 				</resources>
 			</wxsmith>
 			<debugger />

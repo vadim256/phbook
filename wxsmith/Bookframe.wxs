@@ -39,6 +39,9 @@
 		<object class="wxMenuBar" variable="MenuBar1" member="no">
 			<object class="wxMenu" variable="Menu1" member="no">
 				<label>&amp;File</label>
+				<object class="wxMenuItem" name="ID_MENUITEM1" variable="MenuItem3" member="yes">
+					<label>Show Dialog</label>
+				</object>
 				<object class="wxMenuItem" name="idMenuQuit" variable="MenuItem1" member="no">
 					<label>Quit</label>
 					<accel>Alt-F4</accel>
@@ -65,6 +68,7 @@
 			<object class="tool" name="idNewContact" variable="ToolBarItem1" member="yes">
 				<label>New </label>
 				<bitmap>/home/ameliepulen/project3/phbook/add_contact.png</bitmap>
+				<handler function="OnToolBarItem1Clicked" entry="EVT_TOOL" />
 			</object>
 			<object class="tool" name="idUpdateContact" variable="ToolBarItem2" member="yes">
 				<label>Update</label>

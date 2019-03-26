@@ -22,6 +22,7 @@
 #include <wx/toolbar.h>
 //*)
 #include "BookDB.h"
+#include "ContactDialog.h"
 
 class BookFrame: public wxFrame
 {
@@ -36,6 +37,7 @@ class BookFrame: public wxFrame
         void OnQuit(wxCommandEvent& event);
         void OnAbout(wxCommandEvent& event);
         void OnSplitterWindow1SashPosChanging(wxSplitterEvent& event);
+        void OnToolBarItem1Clicked(wxCommandEvent& event);
         //*)
 
         //(*Identifiers(BookFrame)
@@ -43,6 +45,7 @@ class BookFrame: public wxFrame
         static const long ID_LISTBOX1;
         static const long ID_TEXTCTRL1;
         static const long ID_SPLITTERWINDOW1;
+        static const long ID_MENUITEM1;
         static const long idMenuQuit;
         static const long idMenuAbout;
         static const long ID_STATUSBAR1;
@@ -54,6 +57,7 @@ class BookFrame: public wxFrame
 
         //(*Declarations(BookFrame)
         wxListBox* ListBox1;
+        wxMenuItem* MenuItem3;
         wxSearchCtrl* SearchCtrl1;
         wxSplitterWindow* SplitterWindow1;
         wxStatusBar* StatusBar1;

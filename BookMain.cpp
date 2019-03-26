@@ -49,6 +49,7 @@ const long BookFrame::ID_SEARCHCTRL1 = wxNewId();
 const long BookFrame::ID_LISTBOX1 = wxNewId();
 const long BookFrame::ID_TEXTCTRL1 = wxNewId();
 const long BookFrame::ID_SPLITTERWINDOW1 = wxNewId();
+const long BookFrame::ID_MENUITEM1 = wxNewId();
 const long BookFrame::idMenuQuit = wxNewId();
 const long BookFrame::idMenuAbout = wxNewId();
 const long BookFrame::ID_STATUSBAR1 = wxNewId();
@@ -93,6 +94,8 @@ BookFrame::BookFrame(wxWindow* parent,wxWindowID id)
     SetSizer(BoxSizer1);
     MenuBar1 = new wxMenuBar();
     Menu1 = new wxMenu();
+    MenuItem3 = new wxMenuItem(Menu1, ID_MENUITEM1, _("Show Dialog"), wxEmptyString, wxITEM_NORMAL);
+    Menu1->Append(MenuItem3);
     MenuItem1 = new wxMenuItem(Menu1, idMenuQuit, _("Quit\tAlt-F4"), _("Quit the application"), wxITEM_NORMAL);
     Menu1->Append(MenuItem1);
     MenuBar1->Append(Menu1, _("&File"));
@@ -120,6 +123,7 @@ BookFrame::BookFrame(wxWindow* parent,wxWindowID id)
     Connect(ID_SPLITTERWINDOW1,wxEVT_COMMAND_SPLITTER_SASH_POS_CHANGING,(wxObjectEventFunction)&BookFrame::OnSplitterWindow1SashPosChanging);
     Connect(idMenuQuit,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&BookFrame::OnQuit);
     Connect(idMenuAbout,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&BookFrame::OnAbout);
+    Connect(idNewContact,wxEVT_COMMAND_TOOL_CLICKED,(wxObjectEventFunction)&BookFrame::OnToolBarItem1Clicked);
     //*)
 }
 
@@ -142,4 +146,11 @@ void BookFrame::OnAbout(wxCommandEvent& event)
 
 void BookFrame::OnSplitterWindow1SashPosChanging(wxSplitterEvent& event)
 {
+}
+
+void BookFrame::OnToolBarItem1Clicked(wxCommandEvent& event)
+{
+     auto contactDialog = new ContactDialog(nullptr);
+     contactDialog->ShowModal();
+ //    contactDialog->Destory();
 }
