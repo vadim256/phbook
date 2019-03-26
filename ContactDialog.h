@@ -12,6 +12,13 @@
 //(*Headers(ContactDialog)
 #include <wx/statline.h>
 //*)
+#include <wx/valtext.h>
+#include <wx/string.h>
+#include <wx/tokenzr.h>
+
+
+#include "BookContact.h"
+
 
 class ContactDialog: public wxDialog
 {
@@ -19,7 +26,8 @@ class ContactDialog: public wxDialog
 
 		ContactDialog(wxWindow* parent);
 		virtual ~ContactDialog();
-
+		void SetContact(const Contact &);
+        const Contact & GetContact();
 		//(*Declarations(ContactDialog)
 		wxButton* Button1;
 		wxButton* Button2;
@@ -43,9 +51,18 @@ class ContactDialog: public wxDialog
 
 		//(*Handlers(ContactDialog)
 		void OnInit(wxInitDialogEvent& event);
+		void OnButton4Click(wxCommandEvent& event);
 		//*)
+		void InitTmpVar();
+		void TransferAndValidateInput();
+        wxString m_FullName,
+                 m_PhoneNumber,
+                 m_City;
+
+        Contact m_PrepareContact;
 
 		DECLARE_EVENT_TABLE()
+
 };
 
 #endif

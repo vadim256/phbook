@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <wxsmith>
 	<resource_extra>
-		<object root="1">
-			<handler function="OnInit" entry="EVT_INIT_DIALOG" />
-		</object>
+		<object root="1" />
 		<object name="ID_STATICTEXT1" class="wxStaticText" variable="StaticText1" member="yes" />
 		<object name="ID_TEXTCTRL1" class="wxTextCtrl" variable="TextCtrl1" member="yes" />
 		<object name="ID_STATICTEXT2" class="wxStaticText" variable="StaticText2" member="yes" />
@@ -14,6 +12,8 @@
 		<object name="wxID_OK" class="wxButton" variable="Button1" member="yes" />
 		<object name="wxID_CANCEL" class="wxButton" variable="Button2" member="yes" />
 		<object name="ID_BUTTON3" class="wxButton" variable="Button3" member="yes" />
-		<object name="ID_BUTTON4" class="wxButton" variable="Button4" member="yes" />
+		<object name="ID_BUTTON4" class="wxButton" variable="Button4" member="yes">
+			<handler function="OnButton4Click" entry="EVT_BUTTON" />
+		</object>
 	</resource_extra>
 </wxsmith>

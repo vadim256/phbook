@@ -22,6 +22,7 @@
 #include <wx/toolbar.h>
 //*)
 #include "BookDB.h"
+#include "ContactDialog.h"
 
 class BookFrame: public wxFrame
 {
@@ -36,6 +37,8 @@ class BookFrame: public wxFrame
         void OnQuit(wxCommandEvent& event);
         void OnAbout(wxCommandEvent& event);
         void OnSplitterWindow1SashPosChanging(wxSplitterEvent& event);
+        void OnToolBarItem1Clicked(wxCommandEvent& event);
+        void OnClose(wxCloseEvent& event);
         //*)
 
         //(*Identifiers(BookFrame)

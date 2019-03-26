@@ -17,6 +17,7 @@ BEGIN_EVENT_TABLE(ContactDialog,wxDialog)
 	//*)
 END_EVENT_TABLE()
 
+
 ContactDialog::ContactDialog(wxWindow* parent)
 {
 	//(*Initialize(ContactDialog)
@@ -33,8 +34,10 @@ ContactDialog::ContactDialog(wxWindow* parent)
 	Button3 = (wxButton*)FindWindow(XRCID("ID_BUTTON3"));
 	Button4 = (wxButton*)FindWindow(XRCID("ID_BUTTON4"));
 
-	Connect(wxID_ANY,wxEVT_INIT_DIALOG,(wxObjectEventFunction)&ContactDialog::OnInit);
+	Connect(XRCID("ID_BUTTON4"),wxEVT_COMMAND_BUTTON_CLICKED,(wxObjectEventFunction)&ContactDialog::OnButton4Click);
 	//*)
+	InitTmpVar();
+    TransferAndValidateInput();
 }
 
 ContactDialog::~ContactDialog()
@@ -44,6 +47,49 @@ ContactDialog::~ContactDialog()
 }
 
 
-void ContactDialog::OnInit(wxInitDialogEvent& event)
+void ContactDialog::OnInit(wxInitDialogEvent& event) {
+}
+
+void ContactDialog::TransferAndValidateInput() {
+
+    wxTextValidator tmp1(wxFILTER_EXCLUDE_CHAR_LIST, &m_FullName);
+	tmp1.SetCharExcludes(wxString(wxT("1234567890")));
+    TextCtrl1->SetValidator(tmp1);
+
+	wxTextValidator tmp2(wxFILTER_INCLUDE_CHAR_LIST, &m_PhoneNumber);
+	tmp2.SetCharIncludes(wxString(wxT("1234567890+ ()-")));
+	TextCtrl2->SetValidator(tmp2);
+
+    wxTextValidator tmp3(wxFILTER_EXCLUDE_CHAR_LIST, &m_City);
+	tmp3.SetCharExcludes(wxString(wxT("1234567890")));
+    TextCtrl3->SetValidator(tmp3);
+}
+
+const Contact & ContactDialog::GetContact() {
+
+    wxStringTokenizer m_SepareName(m_FullName, wxT(" "));
+    m_PrepareContact.SetFirstName((const char*)m_SepareName.GetNextToken().mb_str(wxConvUTF8));
+    m_PrepareContact.SetLastName((const char*)m_SepareName.GetNextToken().mb_str(wxConvUTF8));
+    m_PrepareContact.SetPhoneNumber((const char *)m_PhoneNumber.mb_str(wxConvUTF8));
+    m_PrepareContact.SetCity((const char *)m_City.mb_str(wxConvUTF8));
+
+    return m_PrepareContact;
+}
+
+void ContactDialog::SetContact(const Contact & contact){
+
+    m_PrepareContact = contact;
+}
+
+void ContactDialog::InitTmpVar() {
+    m_FullName = m_PrepareContact.GetFirstName();
+    m_FullName += wxString(wxT(" ")) + m_PrepareContact.GetLastName();
+    m_PhoneNumber = m_PrepareContact.GetPhoneNumber();
+    m_City = m_PrepareContact.GetCity();
+}
+
+void ContactDialog::OnButton4Click(wxCommandEvent& event)
 {
+    this->InitTmpVar();
+    TransferDataToWindow();
 }

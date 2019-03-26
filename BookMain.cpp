@@ -68,6 +68,7 @@ BookFrame::BookFrame(wxWindow* parent,wxWindowID id)
     //(*Initialize(BookFrame)
     wxBoxSizer* BoxSizer1;
     wxBoxSizer* BoxSizer2;
+    wxBoxSizer* BoxSizer3;
     wxMenu* Menu1;
     wxMenu* Menu2;
     wxMenuBar* MenuBar1;
@@ -79,9 +80,11 @@ BookFrame::BookFrame(wxWindow* parent,wxWindowID id)
     SetMinSize(wxSize(450,500));
     BoxSizer1 = new wxBoxSizer(wxVERTICAL);
     BoxSizer2 = new wxBoxSizer(wxHORIZONTAL);
+    BoxSizer3 = new wxBoxSizer(wxHORIZONTAL);
     SearchCtrl1 = new wxSearchCtrl(this, ID_SEARCHCTRL1, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0, wxDefaultValidator, _T("ID_SEARCHCTRL1"));
-    BoxSizer2->Add(SearchCtrl1, 1, wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 5);
-    BoxSizer1->Add(BoxSizer2, 0, wxALL|wxSHAPED, 2);
+    BoxSizer3->Add(SearchCtrl1, 1, wxALL|wxEXPAND, 5);
+    BoxSizer2->Add(BoxSizer3, 2, wxALL|wxEXPAND, 5);
+    BoxSizer1->Add(BoxSizer2, 0, wxALL|wxEXPAND, 2);
     SplitterWindow1 = new wxSplitterWindow(this, ID_SPLITTERWINDOW1, wxDefaultPosition, wxDefaultSize, wxSP_3D|wxSP_3DBORDER|wxSP_LIVE_UPDATE|wxDOUBLE_BORDER, _T("ID_SPLITTERWINDOW1"));
     SplitterWindow1->SetMinimumPaneSize(125);
     SplitterWindow1->SetSashGravity(0.5);
@@ -120,6 +123,8 @@ BookFrame::BookFrame(wxWindow* parent,wxWindowID id)
     Connect(ID_SPLITTERWINDOW1,wxEVT_COMMAND_SPLITTER_SASH_POS_CHANGING,(wxObjectEventFunction)&BookFrame::OnSplitterWindow1SashPosChanging);
     Connect(idMenuQuit,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&BookFrame::OnQuit);
     Connect(idMenuAbout,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&BookFrame::OnAbout);
+    Connect(idNewContact,wxEVT_COMMAND_TOOL_CLICKED,(wxObjectEventFunction)&BookFrame::OnToolBarItem1Clicked);
+    Connect(wxID_ANY,wxEVT_CLOSE_WINDOW,(wxObjectEventFunction)&BookFrame::OnClose);
     //*)
 }
 
@@ -142,4 +147,15 @@ void BookFrame::OnAbout(wxCommandEvent& event)
 
 void BookFrame::OnSplitterWindow1SashPosChanging(wxSplitterEvent& event)
 {
+}
+
+void BookFrame::OnToolBarItem1Clicked(wxCommandEvent& event)
+{
+    auto dialog = new ContactDialog(nullptr);
+    dialog->ShowModal();
+}
+
+void BookFrame::OnClose(wxCloseEvent& event)
+{
+    this->Destroy();
 }
