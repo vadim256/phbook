@@ -157,7 +157,11 @@ void BookFrame::OnSplitterWindow1SashPosChanging(wxSplitterEvent& event)
 void BookFrame::OnToolBarItem1Clicked(wxCommandEvent& event)
 {
     auto dialog = new ContactDialog(nullptr);
-    dialog->ShowModal();
+    auto ret = dialog->ShowModal();
+    if(ret == wxID_OK){
+        m_BookDB.SetContact(dialog->GetContact());
+        m_BookDB.InsertContactDB();
+    }
 }
 
 void BookFrame::OnClose(wxCloseEvent& event)

@@ -34,6 +34,7 @@
 				<Linker>
 					<Add option="-s" />
 					<Add option="`wx-config  --version=3.1 --static=no --unicode=yes --debug=no --libs`" />
+					<Add library="/usr/lib/x86_64-linux-gnu/libsqlite3.so" />
 				</Linker>
 			</Target>
 		</Build>
@@ -64,10 +65,12 @@
 			<envvars />
 			<lib_finder disable_auto="1" />
 			<wxsmith version="1">
-				<gui name="wxWidgets" src="BookApp.cpp" main="BookFrame" init_handlers="necessary" language="CPP" />
+				<gui name="wxWidgets" src="BookApp.cpp" main="BookFrame" init_handlers="necessary" language="CPP">
+					<load_resource file="ContactDialog.xrc" />
+				</gui>
 				<resources>
 					<wxFrame wxs="wxsmith/Bookframe.wxs" src="BookMain.cpp" hdr="BookMain.h" fwddecl="0" i18n="1" name="BookFrame" language="CPP" />
-					<wxDialog wxs="wxsmith/ContactDialog.wxs" src="ContactDialog.cpp" hdr="ContactDialog.h" fwddecl="0" i18n="1" name="ContactDialog" language="CPP" />
+					<wxDialog wxs="wxsmith/ContactDialog.wxs" src="ContactDialog.cpp" hdr="ContactDialog.h" xrc="ContactDialog.xrc" fwddecl="0" i18n="1" name="ContactDialog" language="CPP" />
 				</resources>
 			</wxsmith>
 			<debugger />

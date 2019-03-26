@@ -62,7 +62,7 @@ void BookDB::CreateTableContacts(){
 
 void BookDB::CreateTableLive(){
     std::string request("CREATE TABLE live("
-                         "live_id INTEGER PRIMARY KEY AUTOINCREMENT,"
+                         "live_id INTEGER PRIMARY KEY,"
                          "name_city VARCHAR(255) NOT NULL, "
                          "FOREIGN KEY(live_id) REFERENCES contacts(contact_id)"
                          ");");
@@ -78,7 +78,7 @@ void BookDB::CreateTablePhones(){
     std::string request("CREATE TABLE phones("
                          "phone_id INTEGER PRIMARY KEY AUTOINCREMENT,"
                          "phone_number VARCHAR(255) NOT NULL,"
-                         "contact_id INTEGER NOT NULL,"
+                         "contact_id INTEGER,"
                          "FOREIGN KEY(contact_id) REFERENCES contacts(contact_id)"
                          ");");
     sqlite3_stmt * PtrStmt;
@@ -118,8 +118,8 @@ void BookDB::InsertContactDB(){
 
     request.clear();
     request = std::string("INSERT INTO live(live_id, name_city) VALUES("
-                          "(SELECT contact_id FROM contacts WHERE first_name_ct == '") + fname +
-              std::string("' AND second_name_ct == '") + lname + std::string("'), :name_city);");
+                          "(SELECT contact_id FROM contacts WHERE first_name_ct = '") + fname +
+              std::string("' AND last_name_ct = '") + lname + std::string("'), :name_city);");
     result = sqlite3_prepare_v2(m_PtrDB, request.c_str(), request.size()+1, &PtrStmt, nullptr);
     index = sqlite3_bind_parameter_index(PtrStmt, ":name_city");
     auto name_city = m_CurrentContact.GetCity();
@@ -129,12 +129,13 @@ void BookDB::InsertContactDB(){
 
     request.clear();
     request = std::string("INSERT INTO phones(phone_number, contact_id) VALUES(:phone_number,"
-                          "(SELECT contact_id FROM contacts WHERE first_name_ct == '") + fname +
-              std::string("' AND second_name_ct == '") + lname + std::string("'));");
+                          "(SELECT contact_id FROM contacts WHERE first_name_ct = '") + fname +
+              std::string("' AND last_name_ct = '") + lname + std::string("'));");
     result = sqlite3_prepare_v2(m_PtrDB, request.c_str(), request.size()+1, &PtrStmt, nullptr);
     index = sqlite3_bind_parameter_index(PtrStmt, ":phone_number");
 
     result = sqlite3_bind_text(PtrStmt, index, phone_number.c_str(), phone_number.size()+1, SQLITE_TRANSIENT);
     result = sqlite3_step(PtrStmt);
     sqlite3_finalize(PtrStmt);
+
 }
